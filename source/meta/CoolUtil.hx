@@ -1,6 +1,7 @@
 package meta;
 
 import lime.utils.Assets;
+import openfl.utils.Assets as OpenFlAssets;
 import meta.state.PlayState;
 
 using StringTools;
@@ -65,7 +66,9 @@ class CoolUtil
 		//
 		var libraryArray:Array<String> = [];
 		#if !html5
-		var unfilteredLibrary = FileSystem.readDirectory('$subDir/$library');
+		var daPath = Assets.list();
+
+		var unfilteredLibrary = list.filter(text -> text.contains('$subDir/$library'));
 		trace(unfilteredLibrary);
 
 		if (unfilteredLibrary == null)

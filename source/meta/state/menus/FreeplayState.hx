@@ -16,6 +16,7 @@ import flixel.tweens.misc.ColorTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.utils.Assets;
+import openfl.utils.Assets as OpenFlAssets;
 import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
@@ -77,38 +78,13 @@ class FreeplayState extends MusicBeatState
 
 		selectedCategory = 0;
 
-		/**
+		/*
 			Wanna add songs? They're in the Main state now, you can just find the week array and add a song there to a specific week.
 			Alternatively, you can make a folder in the Songs folder and put your songs there, however, this gives you less
 			control over what you can display about the song (color, icon, etc) since it will be pregenerated for you instead.
-		**/
+		*/
 		// load in all songs that exist in folder
 		// var folderSongs:Array<String> = CoolUtil.returnAssetsLibrary('songs', 'assets');
-
-		///*
-		// for (i in 0...Main.gameWeeks.length)
-		// {
-		// 	addWeek(Main.gameWeeks[i][0], i, Main.gameWeeks[i][1], Main.gameWeeks[i][2]);
-		// 	for (j in cast(Main.gameWeeks[i][0], Array<Dynamic>))
-		// 		existingSongs.push(j.toLowerCase());
-		// }
-
-		// */
-
-		// for (i in folderSongs)
-		// {
-		// 	if (!existingSongs.contains(i.toLowerCase()))
-		// 	{
-		// 		var icon:String = 'gf';
-		// 		var chartExists:Bool = FileSystem.exists(Paths.songJson(i, i));
-		// 		if (chartExists)
-		// 		{
-		// 			var castSong:SwagSong = Song.loadFromJson(i, i);
-		// 			icon = (castSong != null) ? castSong.player2 : 'gf';
-		// 			addSong(CoolUtil.spaceToDash(castSong.song), 1, icon, FlxColor.WHITE);
-		// 		}
-		// 	}
-		// }
 
 		// LOAD MUSIC
 		ForeverTools.playFreeplayMusic();
@@ -339,8 +315,8 @@ class FreeplayState extends MusicBeatState
 		///*
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficultyArray)
-			if (FileSystem.exists(Paths.songJson(songName, songName + '-' + i))
-				|| (FileSystem.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
+			if (OpenFlAssets.exists(Paths.songJson(songName, songName + '-' + i))
+				|| (OpenFlAssets.exists(Paths.songJson(songName, songName)) && i == "NORMAL"))
 				coolDifficultyArray.push(i);
 
 		if (coolDifficultyArray.length > 0)

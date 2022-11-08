@@ -137,7 +137,7 @@ class CutsceneState extends MusicBeatState
 		}
 
 		var layer1Json = Paths.file('images/cutscene/' + sceneNum + '/layer1.json');
-		var layer1Data = haxe.Json.parse(sys.io.File.getContent(layer1Json));
+		var layer1Data = haxe.Json.parse(OpenFlAssets.getText(layer1Json));
 
 		var layer1FramesData = getFrameIndexesExpanded(layer1Data.frames);
 		layer1 = new FlxSprite();
@@ -151,7 +151,7 @@ class CutsceneState extends MusicBeatState
 		add(layer1);
 		
 		var layer2Json = Paths.file('images/cutscene/' + sceneNum + '/layer2.json');
-		var layer2Data = haxe.Json.parse(sys.io.File.getContent(layer2Json));
+		var layer2Data = haxe.Json.parse(OpenFlAssets.getText(layer2Json));
 
 		var layer2FramesData = getFrameIndexesExpanded(layer2Data.frames);
 		layer2 = new FlxSprite();
@@ -182,7 +182,7 @@ class CutsceneState extends MusicBeatState
 		}
 
 		var layer3Json = Paths.file('images/cutscene/' + sceneNum + '/layer3.json');
-		var layer3Data = haxe.Json.parse(sys.io.File.getContent(layer3Json));
+		var layer3Data = haxe.Json.parse(OpenFlAssets.getText(layer3Json));
 
 		var layer3FramesData = getFrameIndexesExpanded(layer3Data.frames);
 		layer3 = new FlxSprite();

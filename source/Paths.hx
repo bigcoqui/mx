@@ -42,18 +42,6 @@ class Paths
 		if (library != null)
 			return getLibraryPath(file, library);
 
-		/*
-			if (currentLevel != null)
-			{
-				levelPath = getLibraryPathForce(file, currentLevel);
-				if (OpenFlAssets.exists(levelPath, type))
-					return levelPath;
-
-				levelPath = getLibraryPathForce(file, "shared");
-				if (OpenFlAssets.exists(levelPath, type))
-					return levelPath;
-		}*/
-
 		var levelPath = getLibraryPathForce(file, "mods");
 		if (OpenFlAssets.exists(levelPath, type))
 			return levelPath;
@@ -61,16 +49,6 @@ class Paths
 		return getPreloadPath(file);
 	}
 
-	// files!
-	// this is how I'm gonna do it, considering it's much cleaner in my opinion
-
-	/*
-		inline static public function returnFileType(fileName:String, ?library:String, fileExtension:String)
-		{
-			// I don't really use haxe so bare with me
-			var returnFile:String = "$" + fileName + "." + fileExtension;
-			return getPath()
-	}//*/
 	/*  
 		actually I could just combine all of these main functions into one and really call it a day
 		it's similar and would use one function with a switch case
@@ -152,7 +130,7 @@ class Paths
 			song = 'first-level';
 		}
 		var voicePath = 'songs/${song.toLowerCase()}/Voices.$SOUND_EXT';
-		if (!FileSystem.exists(getPath(voicePath, MUSIC, null)))
+		if (!OpenFlAssets.exists(getPath(voicePath, MUSIC, null)))
 		{
 			voicePath = 'songs/${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices.$SOUND_EXT';
 		}
@@ -166,7 +144,7 @@ class Paths
 			song = 'first-level';
 		}
 		var instPath = 'songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
-		if (!FileSystem.exists(getPath(instPath, MUSIC, null)))
+		if (!OpenFlAssets.exists(getPath(instPath, MUSIC, null)))
 		{
 			instPath = 'songs/${CoolUtil.swapSpaceDash(song.toLowerCase())}/Inst.$SOUND_EXT';
 		}
@@ -185,7 +163,7 @@ class Paths
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
-		return (FlxAtlasFrames.fromSparrow(image(key, library), File.getContent(file('images/$key.xml', library))));
+		return (FlxAtlasFrames.fromSparrow(image(key, library), OpenFlAssets.getText(file('images/$key.xml', library))));
 	}
 
 	inline static public function getPackerAtlas(key:String, ?library:String)

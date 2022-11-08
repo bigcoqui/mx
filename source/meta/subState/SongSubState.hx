@@ -21,6 +21,7 @@ import meta.state.menus.*;
 import meta.data.*;
 import gameObjects.userInterface.GameboyStartup;
 import flixel.addons.plugin.screengrab.FlxScreenGrab;
+import openfl.utils.Assets as OpenFlAssets;
 
 class SongSubState extends MusicBeatSubState
 {
@@ -55,9 +56,9 @@ class SongSubState extends MusicBeatSubState
 		var thumbID:Int = 0;
 		var songDesc:String = "I HAVE FURY!";
 
-		if (sys.FileSystem.exists(songJson))
+		if (OpenFlAssets.exists(songJson))
 		{
-			var songData = haxe.Json.parse(sys.io.File.getContent(songJson));
+			var songData = haxe.Json.parse(OpenFlAssets.getText(songJson));
 			bgType = songData.bgType;
 			thumbID = songData.thumbnail;
 			songDesc = (unlocked) ? songData.description : songData.hint;
