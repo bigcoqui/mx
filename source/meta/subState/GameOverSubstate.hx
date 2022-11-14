@@ -15,7 +15,6 @@ import meta.state.menus.*;
 
 class GameOverSubstate extends MusicBeatSubState
 {
-	//
 	var bf:FlxSprite;
 	var bf2:FlxSprite;
 	var camFollow:FlxObject;
@@ -40,7 +39,6 @@ class GameOverSubstate extends MusicBeatSubState
 				x += 3 * 6;
 				y += 16 * 6;
 				x -= 3;
-
 			case 'bf-portal':
 				daBf = 'bf-portal-dead';
 				x -= 2;
@@ -80,11 +78,11 @@ class GameOverSubstate extends MusicBeatSubState
 
 		FlxG.sound.play(Paths.sound('death'));
 		Conductor.changeBPM(100);
-		
-		// FlxG.camera.followLerp = 1;
-		// FlxG.camera.focusOn(FlxPoint.get(FlxG.width / 2, FlxG.height / 2));
-		// FlxG.camera.scroll.set();
-		// FlxG.camera.target = null;
+
+		#if android
+		addVirtualPad(NONE, A_B);
+		addPadCamera();
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -93,7 +91,7 @@ class GameOverSubstate extends MusicBeatSubState
 
 		if (controls.ACCEPT)
 			endBullshit();
-		
+
 		if (controls.BACK)
 		{
 			PlayState.blackBox.visible = true;
@@ -133,13 +131,9 @@ class GameOverSubstate extends MusicBeatSubState
 		if (!isEnding)
 		{
 			isEnding = true;
-			//bf.playAnim('deathConfirm', true);
-			// FlxG.sound.music.stop();
-			// FlxG.sound.destroy();
 			PlayState.blackBox.visible = true;
 			close();
 			Main.switchState(this, new PlayState());
-			//
 		}
 	}
 }
