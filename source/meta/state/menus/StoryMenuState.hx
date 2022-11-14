@@ -14,7 +14,6 @@ import flixel.util.FlxTimer;
 import gameObjects.userInterface.menu.*;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
-import meta.data.dependency.Discord;
 
 using StringTools;
 
@@ -57,10 +56,6 @@ class StoryMenuState extends MusicBeatState
 
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
-
-		#if !html5
-		Discord.changePresence('STORY MENU', 'Main Menu');
-		#end
 
 		// freeaaaky
 		ForeverTools.resetMenuMusic();
@@ -191,11 +186,14 @@ class StoryMenuState extends MusicBeatState
 		// very unprofessional yoshubs!
 
 		updateText();
+
+		#if android
+		addVirtualPad(FULL, A_B);
+		#end
 	}
 
 	override function update(elapsed:Float)
 	{
-		// scoreText.setFormat('VCR OSD Mono', 32);
 		var lerpVal = Main.framerateAdjust(0.5);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, lerpVal));
 
@@ -203,8 +201,6 @@ class StoryMenuState extends MusicBeatState
 
 		txtWeekTitle.text = Main.gameWeeks[curWeek][3].toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
-
-		// FlxG.watch.addQuick('font', scoreText.font);
 
 		difficultySelectors.visible = weekUnlocked[curWeek];
 
@@ -352,8 +348,6 @@ class StoryMenuState extends MusicBeatState
 	function updateText()
 	{
 		grpWeekCharacters.members[0].createCharacter(weekCharacters[curWeek][0], true);
-		// grpWeekCharacters.members[1].createCharacter(weekCharacters[curWeek][1]);
-		// grpWeekCharacters.members[2].createCharacter(weekCharacters[curWeek][2]);
 		txtTracklist.text = "Tracks\n";
 
 		var stringThing:Array<String> = Main.gameWeeks[curWeek][0];
