@@ -23,7 +23,6 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
-import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import meta.state.menus.*;
 import openfl.Assets;
@@ -47,6 +46,10 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+	  #if android
+	  FlxG.android.preventDefaultKeys = [BACK];
+	  #end
+
 		controls.setKeyboardScheme(None, false);
 		super.create();
 
@@ -80,15 +83,9 @@ class TitleState extends MusicBeatState
 	{
 		if (!initialized)
 		{
-			///*
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
-			// */
 		}
-
-		#if !html5
-		Discord.changePresence('TITLE SCREEN', 'Main Menu');
-		#end
 
 		ForeverTools.playTitleMusic();
 
@@ -129,7 +126,6 @@ class TitleState extends MusicBeatState
 		logo.animation.addByPrefix('flash', 'flash', 18, true);
 		logo.animation.addByPrefix('idle', 'idle', 24, true);
 
-		//logo.animation.add("flash", [0, 1, 2, 1], 18);
 		logo.setGraphicSize(Std.int(logo.width * 6));
 		logo.updateHitbox();
 		logo.antialiasing = false;
@@ -185,14 +181,10 @@ class TitleState extends MusicBeatState
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
 
-		#if mobile
+		#if android
 		for (touch in FlxG.touches.list)
-		{
 			if (touch.justPressed)
-			{
 				pressedEnter = true;
-			}
-		}
 		#end
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -222,29 +214,11 @@ class TitleState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('title_confirm'), 0.45);
 
 			transitioning = true;
-			// FlxG.sound.music.stop();
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				// Check if version is outdated
-
-				var version:String = "v" + Application.current.meta.get('version');
-				/*
-					if (version.trim() != NGio.GAME_VER_NUMS.trim() && !OutdatedSubState.leftState)
-					{
-						FlxG.switchState(new OutdatedSubState());
-						trace('OLD VERSION!');
-						trace('old ver');
-						trace(version.trim());
-						trace('cur ver');
-						trace(NGio.GAME_VER_NUMS.trim());
-					}
-					else
-					{ */
 				Main.switchState(this, new MainMenuState());
-				// }
 			});
-			// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
 		}
 
 		if (disclaimerTime > 0)
