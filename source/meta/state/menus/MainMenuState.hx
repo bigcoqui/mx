@@ -26,7 +26,6 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
-import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import meta.state.menus.*;
 import meta.subState.SongSubState;
@@ -98,10 +97,6 @@ class MainMenuState extends MusicBeatState
 
 		// make sure the music is playing
 		ForeverTools.resetMenuMusic();
-
-		#if !html5
-		Discord.changePresence('MENU SCREEN', 'Main Menu');
-		#end
 
 		persistentUpdate = persistentDraw = true;
 		submenuGroup = new FlxTypedGroup<FlxBasic>();
@@ -224,6 +219,10 @@ class MainMenuState extends MusicBeatState
 				}
 			} 
 		}
+
+		#if android
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 	}
 
 	function addMenuItems()
