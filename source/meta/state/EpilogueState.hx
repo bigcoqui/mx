@@ -24,7 +24,6 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
-import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import meta.state.menus.*;
 import openfl.Assets;
@@ -34,8 +33,8 @@ using StringTools;
 
 class EpilogueState extends MusicBeatState
 {
-	
 	var music:FlxSound;
+
 	override public function create():Void
 	{
 		super.create();
@@ -60,6 +59,12 @@ class EpilogueState extends MusicBeatState
 		super.update(elapsed);
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
+		
+		#if android
+		 for (touch in FlxG.touches.list)
+			if (touch.justPressed)
+				pressedEnter = true;
+		#end
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
