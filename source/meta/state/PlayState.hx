@@ -45,10 +45,6 @@ import flixel.addons.plugin.screengrab.FlxScreenGrab;
 
 using StringTools;
 
-#if !html5
-import meta.data.dependency.Discord;
-#end
-
 class PlayState extends MusicBeatState
 {
 	public static var startTimer:FlxTimer;
@@ -356,11 +352,10 @@ class PlayState extends MusicBeatState
 		marioSwim.setGraphicSize(Std.int(marioSwim.width * 6));
 		marioSwim.updateHitbox();
 		marioSwim.visible = false;
-		
 
 		// set up characters here too
 		disableControls = false;
-		
+
 		gf = new Character(0, 0, stageBuild.returnGFtype(curStage));
 		gf.scrollFactor.set(1, 1);
 
@@ -395,8 +390,6 @@ class PlayState extends MusicBeatState
 		{
 			assetModifier = 'mari0';
 		}
-
-		// isPixel = true;
 
 		// reposition characters
 		stageBuild.repositionPlayers(curStage, boyfriend, dadOpponent, gf);
@@ -450,7 +443,6 @@ class PlayState extends MusicBeatState
 		}
 
 		add(fireballs);
-
 
 		// add characters
 		add(marioSwim);
@@ -524,7 +516,6 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 		startedCountdown = true;
 
-		//
 		var placement = (FlxG.width / 2);
 		var offset:Float = 0;
 		if (isMX && !Init.trueSettings.get('Centered Notefield'))
@@ -585,7 +576,6 @@ class PlayState extends MusicBeatState
 			add(uiHUD);
 			uiHUD.cameras = [camHUD];
 		}
-		//
 
 		// create a hud over the hud camera for dialogue
 		dialogueHUD = new FlxCamera();
@@ -645,6 +635,11 @@ class PlayState extends MusicBeatState
 		marioPos = new FlxPoint(boyfriend.x, boyfriend.y);
 		marioTarget = new FlxPoint(boyfriend.x, boyfriend.y);
 		groundPos = boyfriend.y;
+
+		#if android
+		addAndroidControls();
+		androidControls.visible = true;
+		#end
 
 		// call the funny intro cutscene depending on the song
 		if (!skipCutscenes())
@@ -1088,11 +1083,19 @@ class PlayState extends MusicBeatState
 		// dialogue checks
 		if (dialogueBox != null && dialogueBox.alive) {
 			// wheee the shift closes the dialogue
-			if (FlxG.keys.justPressed.SHIFT)
+			if (FlxG.keys.justPressed.SHIFT #if android || FlxG.android.justReleased.BACK #end)
 				dialogueBox.closeDialog();
 
+			var pressedEnter:Bool = controls.ACCEPT;
+
+			#if android
+			for (touch in FlxG.touches.list)
+				if (touch.justPressed)
+				  pressedEnter = true;
+			#end
+
 			// the change I made was just so that it would only take accept inputs
-			if (controls.ACCEPT && dialogueBox.textStarted)
+			if (pressedEnter && dialogueBox.textStarted)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				dialogueBox.curPage += 1;
@@ -1107,7 +1110,7 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene) {
 			// pause the game if the game is allowed to pause and enter is pressed
-			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+			if (FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 			{
 				// update drawing stuffs
 				persistentUpdate = false;
@@ -2057,7 +2060,7 @@ class PlayState extends MusicBeatState
 
 	public static function updateRPC(pausedRPC:Bool)
 	{
-		#if !html5
+		/*#if !html5
 		var displayRPC:String = (pausedRPC) ? detailsPausedText : songDetails.toUpperCase();
 
 		if (health > 0 && gbHealth > 0)
@@ -2067,7 +2070,7 @@ class PlayState extends MusicBeatState
 			else
 				Discord.changePresence(displayRPC, detailsSub, iconRPC);
 		}
-		#end
+		#end*/
 	}
 
 	var animationsPlay:Array<Note> = [];
@@ -2413,7 +2416,7 @@ class PlayState extends MusicBeatState
 			songLength = songMusic.length;
 
 			// Updating Discord Rich Presence (with Time Left)
-			updateRPC(false);
+			//updateRPC(false);
 			#end
 		}
 	}
@@ -2439,7 +2442,7 @@ class PlayState extends MusicBeatState
 		detailsSub = "";
 
 		// Updating Discord Rich Presence.
-		updateRPC(false);
+		//updateRPC(false);
 
 		curSong = songData.song;
 		if (curSong == '2-PLAYER-GAME')
@@ -2448,11 +2451,11 @@ class PlayState extends MusicBeatState
 			powerupVisuals("idle");
 		}
 
-		songMusic = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.inst(SONG.song)), false, true);
+		songMusic = new FlxSound().loadEmbedded(Paths.inst(SONG.song)), false, true);
 		songMusic.volume = 0.75;
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Sound.fromFile('./' + Paths.voices(SONG.song)), false, true);
+			vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song)), false, true);
 		else
 			vocals = new FlxSound();
 		vocals.volume = 0.75;
