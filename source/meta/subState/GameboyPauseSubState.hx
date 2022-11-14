@@ -38,13 +38,6 @@ class GameboyPauseSubState extends MusicBeatSubState
 	public function new(x:Float, y:Float)
 	{
 		super();
-		#if debug
-		// trace('pause call');
-		#end
-
-		#if debug
-		// trace('pause background');
-		#end
 
 		var isMinus = PlayState.SONG.song == 'Wrong-Warp';
 		var pausePath = 'menus/pixel/pause/gameboy/PAUSE';
@@ -117,10 +110,6 @@ class GameboyPauseSubState extends MusicBeatSubState
 		menuPositioning.push([progressBar, progressBar.y]);
 		menuPositioning.push([mario, mario.y]);
 
-		#if debug
-		// trace('pause info');
-		#end
-
 		grpMenuShit = new FlxTypedGroup<FlxText>();
 		add(grpMenuShit);
 
@@ -145,38 +134,23 @@ class GameboyPauseSubState extends MusicBeatSubState
 			menuPositioning.push([songText, songText.y]);
 		}
 
-		#if debug
-		// trace('change selection');
-		#end
-
 		changeSelection();
 
 		menuPositioning.push([selector, selector.y]);
-
-		#if debug
-		// trace('cameras');
-		#end
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		
 		FlxG.sound.play(Paths.sound('pause'), 1);
 
-		#if debug
-		// trace('cameras done');
+		#if android
+		addVirtualPad(UP_DOWN, A);
+		addPadCamera();
 		#end
 	}
 
 	override function update(elapsed:Float)
 	{
-		#if debug
-		// trace('call event');
-		#end
-
 		super.update(elapsed);
-
-		#if debug
-		// trace('updated event');
-		#end
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -230,16 +204,6 @@ class GameboyPauseSubState extends MusicBeatSubState
 					Main.switchState(this, new GameboyPowerdown(screenCap));
 			}
 		}
-
-		if (FlxG.keys.justPressed.J)
-		{
-			// for reference later!
-			// PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxKey.J, null);
-		}
-
-		#if debug
-		// trace('music volume increased');
-		#end
 
 		if (transitionType == 1)
 		{
@@ -297,18 +261,10 @@ class GameboyPauseSubState extends MusicBeatSubState
 
 		var bullShit:Int = 0;
 
-		#if debug
-		// trace('mid selection');
-		#end
-
 		for (item in grpMenuShit.members)
 		{
-			//item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
 			if (bullShit == curSelected)
 			{
-				//item.alpha = 1;
 				selector.x = item.x - (8 * 6);
 				selector.y = item.y;
 
@@ -317,15 +273,9 @@ class GameboyPauseSubState extends MusicBeatSubState
 
 				selector.x -= 1;
 				selector.y -= 1;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 
 			bullShit++;
 		}
-
-		#if debug
-		// trace('finished selection');
-		#end
-		//
 	}
 }
