@@ -24,7 +24,6 @@ import flixel.util.FlxTimer;
 import lime.app.Application;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
-import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import meta.state.menus.*;
 import openfl.Assets;
@@ -45,6 +44,7 @@ class CreditsState extends MusicBeatState
 	var yPos:Float;
 
 	var music:FlxSound;
+
 	override public function create():Void
 	{
 		super.create();
@@ -79,7 +79,6 @@ class CreditsState extends MusicBeatState
 		nextImage -= elapsed;
 		if (nextImage <= 0 && curScreen != 17)
 		{
-			
 			var imageName = Std.string(curScreen + 1);
 			if (curScreen + 1 == 15)
 			{
@@ -127,6 +126,12 @@ class CreditsState extends MusicBeatState
 		}
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
+
+		#if android
+		for (touch in FlxG.touches.list)
+			if (touch.justPressed)
+				pressedEnter = true;
+		#end
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
