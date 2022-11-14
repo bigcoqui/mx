@@ -219,6 +219,10 @@ class OptionsMenuState extends MusicBeatState
 		bg2.visible = false;
 
 		selectPipe(0);
+
+		#if android
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
 	}
 
 	function loadPrefs()
