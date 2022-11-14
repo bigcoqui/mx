@@ -76,7 +76,6 @@ class OptionsMenuState extends MusicBeatState
 			],
 			'preferences' => [
 				[
-				  ['Android Controls', getFromOption],
 					['Downscroll', getFromOption],
 					['Centered Notefield', getFromOption],
 					['Ghost Tapping', getFromOption],
@@ -221,7 +220,7 @@ class OptionsMenuState extends MusicBeatState
 		selectPipe(0);
 
 		#if android
-		addVirtualPad(LEFT_FULL, A_B);
+		addVirtualPad(LEFT_FULL, A_B_C);
 		#end
 	}
 
@@ -436,6 +435,12 @@ class OptionsMenuState extends MusicBeatState
 			}
 		}
 
+		#if android
+		if (_virtualpad.buttonC.justPressed) {
+			Main.switchState(this, new android.AndroidControlsMenu());
+		}
+		#end
+
 		var leftP = controls.LEFT_P;
 		var rightP = controls.RIGHT_P;
 		var upP = controls.UP_P;
@@ -443,7 +448,6 @@ class OptionsMenuState extends MusicBeatState
 
 		if (isPipes)
 		{
-
 			if (!lockedMovement)
 			{
 				if (leftP)
