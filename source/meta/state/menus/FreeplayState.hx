@@ -21,7 +21,6 @@ import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.Song.SwagSong;
-import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import openfl.media.Sound;
 import sys.FileSystem;
@@ -88,10 +87,6 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD MUSIC
 		ForeverTools.playFreeplayMusic();
-
-		#if !html5
-		Discord.changePresence('FREEPLAY MENU', 'Main Menu');
-		#end
 
 		// SECRET STUFF
 		secretGroup = new FlxTypedGroup<FlxSprite>();
@@ -181,20 +176,20 @@ class FreeplayState extends MusicBeatState
 
 		addWeeks();
 
-		// FlxG.sound.playMusic(Paths.music('title'), 0);
-		// FlxG.sound.music.fadeIn(2, 0, 0.8);
 		selector = new FlxText();
 
 		selector.size = 40;
 		selector.text = ">";
-		// add(selector);
+
+		#if android
+		addVirtualPad(FULL, A_B);
+		#end
 	}
 
 	function addWeeks()
 	{
 		songs = [];
 
-		///*
 		for (i in 0...Main.gameWeeks.length)
 		{
 			if (selectedCategory == Main.gameWeeks[i][4])
@@ -312,7 +307,6 @@ class FreeplayState extends MusicBeatState
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
 	{
-		///*
 		var coolDifficultyArray = [];
 		for (i in CoolUtil.difficultyArray)
 			if (OpenFlAssets.exists(Paths.songJson(songName, songName + '-' + i))
@@ -320,7 +314,7 @@ class FreeplayState extends MusicBeatState
 				coolDifficultyArray.push(i);
 
 		if (coolDifficultyArray.length > 0)
-		{ //*/
+		{
 			songs.push(new SongMetadata(songName, weekNum, songCharacter, songColor));
 			existingDifficulties.push(coolDifficultyArray);
 		}
@@ -445,8 +439,6 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
-		// selector.y = (70 * curSelected) + 30;
-
 		// set up color stuffs
 		mainColor = songs[curSelected].songColor;
 
@@ -459,15 +451,12 @@ class FreeplayState extends MusicBeatState
 			bullShit++;
 
 			item.color = 0xC8913E;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (curSelected == bullShit - 1)
 			{
 				item.color = 0xFFFFFF;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
-		//
 
 		trace("curSelected: " + curSelected);
 	}
