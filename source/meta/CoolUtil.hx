@@ -66,7 +66,7 @@ class CoolUtil
 		//
 		var libraryArray:Array<String> = [];
 		#if !html5
-		var daPath = Assets.list();
+		var list = Assets.list();
 
 		var unfilteredLibrary = list.filter(text -> text.contains('$subDir/$library'));
 		trace(unfilteredLibrary);
