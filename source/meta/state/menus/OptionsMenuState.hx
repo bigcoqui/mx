@@ -730,7 +730,7 @@ class OptionsMenuState extends MusicBeatState
 			lockedMovement = true;
 			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
 			{
-				Main.switchState(this, new AndroidControlsMenu());
+				Main.switchState(this, new android.AndroidControlsMenu());
 				lockedMovement = false;
 			});
 		}
