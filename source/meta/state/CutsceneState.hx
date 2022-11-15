@@ -28,6 +28,7 @@ import meta.data.font.Alphabet;
 import meta.state.*;
 import meta.state.menus.*;
 import openfl.Assets;
+import openfl.utils.Assets as OpenFlAssets;
 import haxe.Json;
 
 using StringTools;
