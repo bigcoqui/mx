@@ -3,7 +3,7 @@ package meta.data;
 import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;
-import openfl.utils.assets as OpenFlAssets;
+import openfl.utils.Assets as OpenFlAssets;
 import meta.data.Section.SwagSection;
 import sys.io.File;
 
