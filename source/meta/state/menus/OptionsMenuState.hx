@@ -76,6 +76,7 @@ class OptionsMenuState extends MusicBeatState
 			],
 			'preferences' => [
 				[
+				  ['Android Controls', androidControlsMenu],
 					['Downscroll', getFromOption],
 					['Centered Notefield', getFromOption],
 					['Ghost Tapping', getFromOption],
@@ -220,7 +221,7 @@ class OptionsMenuState extends MusicBeatState
 		selectPipe(0);
 
 		#if android
-		addVirtualPad(LEFT_FULL, A_B_C);
+		addVirtualPad(LEFT_FULL, A_B);
 		#end
 	}
 
@@ -434,12 +435,6 @@ class OptionsMenuState extends MusicBeatState
 				ForeverTools.playOptionsMusic();
 			}
 		}
-
-		#if android
-		if (_virtualpad.buttonC.justPressed) {
-			Main.switchState(this, new android.AndroidControlsMenu());
-		}
-		#end
 
 		var leftP = controls.LEFT_P;
 		var rightP = controls.RIGHT_P;
@@ -723,6 +718,20 @@ class OptionsMenuState extends MusicBeatState
 			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
 			{
 				loadSubgroup(activeSubgroup.members[curSelection].text);
+			});
+		}
+	}
+	
+  public function androidControlsMenu()
+	{
+		if (controls.ACCEPT)
+		{
+			FlxG.sound.play(Paths.sound('confirmMenu'));
+			lockedMovement = true;
+			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
+			{
+				Main.switchState(this, new AndroidControlsMenu());
+				lockedMovement = false;
 			});
 		}
 	}
