@@ -6,6 +6,7 @@ import android.flixel.FlxVirtualPad;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxSpriteGroup;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxSave;
@@ -135,7 +136,7 @@ class AndroidControlsSubState extends FlxSubState
 			if (controlitems[Math.floor(curSelected)] == 'Pad-Custom')
 				AndroidControls.setCustom(virtualPad);
 
-			flixel.addons.transition.FlxTransitionableState.skipNextTransOut = true;
+			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.resetState();
 		}
 
