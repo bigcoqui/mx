@@ -464,6 +464,7 @@ class OptionsMenuState extends MusicBeatState
 
 				if (controls.BACK)
 				{
+				  isPipes = true;
 					Main.switchState(this, new MainMenuState());
 				}
 			}
@@ -565,6 +566,7 @@ class OptionsMenuState extends MusicBeatState
 
 			if (controls.BACK)
 			{
+			  isPipes = false;
 				loadPipes();
 			}
 		}
