@@ -464,7 +464,6 @@ class OptionsMenuState extends MusicBeatState
 
 				if (controls.BACK)
 				{
-				  isPipes = true;
 					Main.switchState(this, new MainMenuState());
 				}
 			}
@@ -551,6 +550,10 @@ class OptionsMenuState extends MusicBeatState
 				{
 					selectOption(curSelection + 1);
 				}
+			  if (controls.BACK)
+			  {
+				  loadPipes();
+			  }
 			}
 
 			// move the attachments if there are any
@@ -562,12 +565,6 @@ class OptionsMenuState extends MusicBeatState
 					thisAttachment.x = setting.x - (2 * 6);
 					thisAttachment.y = setting.y + (5 * 6);
 				}
-			}
-
-			if (controls.BACK)
-			{
-			  isPipes = false;
-				loadPipes();
 			}
 		}
 
